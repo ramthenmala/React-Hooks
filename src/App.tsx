@@ -1,24 +1,18 @@
-import React from 'react';
-import './App.css';
+import useFetch from './hooks/useFetch';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const url = `http://jsonplaceholder.typicode.com/posts`;
+
+interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
 }
+const App = () => {
+  const { data, error } = useFetch<Post[]>(url);
+  if (error) return <p>There is an error.</p>;
+  if (!data) return <p>Loading...</p>;
+  return <p>{data[0].title}</p>;
+};
 
 export default App;
